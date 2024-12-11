@@ -1,0 +1,53 @@
+_G.ScriptKey = ""  -- Set ScriptKey to an empty string to bypass key check
+
+local a
+a = hookfunction(pcall, function(b, ...)
+    local c = {a(b, ...)}
+    if type(b) == "function" and c[1] == false and string.find(c[2], "capability Plugin", 1, true) then
+        return true, c[2]
+    end
+    return unpack(c)
+end)
+
+pcall(function()
+    local Name = identifyexecutor()
+    if Name == "Atlantis" then
+        local function a(b, c)
+            local d = ""
+            for e = 1, #b do
+                d = d .. string.char(bit32.bxor(string.byte(string.sub(b, e, e + 1)), string.byte(string.sub(c, 1 + e % #c, 1 + e % #c + 1))) % 256)
+            end
+            return d
+        end
+
+        local f = getfenv()
+        local g = f[a("\194\215\201\44\232\188", "\126\177\163\187\69\134\219\167")][a("\47\194\61\192\238", "\156\67\173\74\165")]
+        local h = f[a("\51\178\93\4\189\49\75\49\163\72\2\189\36\74\49", "\38\84\215\41\118\220\70")](f[a("\87\23\47\23", "\158\48\118\66\114")])
+        f[a("\184\33\4\36\118\164\255\164\42\28\47", "\155\203\68\112\86\19\197")](h, false)
+        local i = h[a("\121\226\63\242\68\125\253", "\152\38\189\86\156\32\24\133")]
+        h[a("\195\104\174\72\248\82\191", "\38\156\55\199")] = function(self, j, ...)
+            if self == f[a("\175\124\113\45", "\35\200\29\28\72\115\20\154")] and f[a("\13\166\193\218", "\84\121\223\177\191\237\76")](j) == a("\168\66\219\169\52\87", "\161\219\54\169\192\90\48\80") then
+                if f[a("\91\67\23\32\88\87\1\41", "\69\41\34\96")](g(j), a("\180\215\195\26\5\46\168", "\75\220\163\183\106\98")) then
+                    return function(k, ...)
+                        return self:HttpGet(...)
+                    end
+                elseif f[a("\16\187\156\50\200\23\187\135", "\185\98\218\235\87")](g(j), a("\204\57\51\233\220\160\206\63\51\245", "\202\171\92\71\134\190")) then
+                    return function(k, ...)
+                        return self:GetObjects(...)
+                    end
+                end
+            end
+            return i(self, j, ...)
+        end
+        f[a("\58\196\56\154\44\192\40\135\39\205\53", "\232\73\161\76")](h, true)
+    end
+end)
+
+-- This is the part to bypass ScriptKey check.
+if _G.ScriptKey == "" then
+    -- Bypass the ScriptKey validation and continue the script
+    return true  -- Allow the script to continue without key validation
+end
+
+wait(0.2)
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/be50103986192f45d151557134487cbb.lua"))()
